@@ -1,0 +1,25 @@
+name: 05 - SHA pinned template
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      # Replace the placeholder SHAs below with full 40-character commit SHAs from
+      # the official release pages of the actions you intend to trust.
+      #
+      # Example format:
+      # uses: actions/checkout@<40-char-commit-sha>
+      # uses: actions/setup-node@<40-char-commit-sha>
+      #
+      # Keeping this as a template avoids accidentally freezing outdated digests.
+      - name: Guidance only
+        run: |
+          echo "Open the release page for each action and copy the full commit SHA."
+          echo "Then replace the placeholders in this workflow."
+          echo "This makes the action reference immutable until you update it yourself."

@@ -1,0 +1,38 @@
+name: 02 - UNSAFE demo (pull_request_target + checkout PR code)
+
+on:
+  pull_request_target:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  unsafe_demo:
+    runs-on: ubuntu-latest
+    env:
+      # Create a harmless repository secret named DEMO_SECRET to observe the risk.
+      DEMO_SECRET: ${{ secrets.DEMO_SECRET }}
+    steps:
+      - name: Explain why this workflow is unsafe
+        run: |
+          echo "This workflow intentionally demonstrates an unsafe pattern."
+          echo "It runs in pull_request_target and then checks out the PR HEAD code."
+          echo "If a PR changes tests/scripts, that code runs with the context of this workflow."
+
+      - name: Checkout pull request HEAD (unsafe pattern)
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run observer test
+        run: npm run test:observer

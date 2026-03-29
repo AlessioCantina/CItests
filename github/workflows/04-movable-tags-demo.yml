@@ -1,0 +1,26 @@
+name: 04 - Movable tags demo
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout with a movable major tag
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js with a movable major tag
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Explain the risk
+        run: |
+          echo "This workflow uses major version tags, which are mutable Git references."
+          echo "The workflow is convenient, but not immutable."
+          echo "For hardening, prefer a full-length commit SHA after verifying the upstream release."

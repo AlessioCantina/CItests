@@ -1,0 +1,22 @@
+name: 03 - Safer pull_request_target (metadata only)
+
+on:
+  pull_request_target:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  metadata_only:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print PR metadata without checking out PR code
+        run: |
+          echo "PR number: ${{ github.event.pull_request.number }}"
+          echo "PR title: ${{ github.event.pull_request.title }}"
+          echo "PR author: ${{ github.event.pull_request.user.login }}"
+          echo "Head repo: ${{ github.event.pull_request.head.repo.full_name }}"
+          echo "Head SHA: ${{ github.event.pull_request.head.sha }}"
+          echo "This workflow intentionally does NOT checkout or execute PR code."
